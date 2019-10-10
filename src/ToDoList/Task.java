@@ -1,49 +1,60 @@
 package ToDoList;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.io.*;
+import java.util.*;
 
 public class Task {
 	
-	private String tid;
-	private String tname;
-	private String tdesc;
-	private String tstatus;
+	Project project = new Project();
+	Scanner input=new Scanner(System.in);
+	public void addtask() throws ParseException {
+			
+		System.out.println("Enter task id:");
+		String tid=input.nextLine();
+		System.out.println("Enter task title:");
+		String tname=input.nextLine();  
+		System.out.println("Enter task desc:");
+		String tdesc=input.nextLine(); 
+		String tstatus="Open";
+		System.out.println("Enter task due date:");
+		String date1=input.nextLine(); 
+		Date tdate=new SimpleDateFormat("dd/MM/yyyy").parse(date1);
+		System.out.println("assign task with project id:");
+		project.displayProject();
+		String tpid=input.nextLine(); 
+		  try
+		  {
+		   File f=new File("Task.txt");
+		   PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
+		   pw.append("\n"+tid+","+tname+","+tdesc+","+tstatus+","+tdate + ","+tpid);
+		   pw.close();
+		  }
+		  catch(Exception e){}  
+		 }
 	
-	private Project project;
-	
-	private Date tdate;
-	
-	public String getTid() {
-		return tid;
+	public void displayTask() {
+		
+		 {
+			try {
+			  
+				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
+				String display="";
+				while( (display=br.readLine()) !=null ) {
+					String data[]=new String[6];
+					data=display.split(",");
+					for(int i=0;i<6;i++) {  
+						System.out.print(data[i]+" ");
+					}
+					System.out.println();
+			   }
+			 }
+			  catch(Exception e){}
+			  
+			 }	
 	}
-	public void setTid(String tid) {
-		this.tid = tid;
-	}
-	public String getTname() {
-		return tname;
-	}
-	public void setTname(String tname) {
-		this.tname = tname;
-	}
-	public String getTdesc() {
-		return tdesc;
-	}
-	public void setTdesc(String tdesc) {
-		this.tdesc = tdesc;
-	}
-	public Date getTdate() {
-		return tdate;
-	}
-	public void setTdate(Date tdate) {
-		this.tdate = tdate;
-	}
-	public String getTstatus() {
-		return tstatus;
-	}
-	public void setTstatus(String tstatus) {
-		this.tstatus = tstatus;
-	}
-
-	
+		
 
 }
