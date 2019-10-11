@@ -29,9 +29,11 @@ public class Test {
 				break;
 			case 3:
 				task.addtask();
+				
 				break;
 			case 4:
 				task.displayTask();
+				
 				break;
 			case 0:
 				default:

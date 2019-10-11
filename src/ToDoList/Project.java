@@ -44,6 +44,36 @@ public class Project {
 			  
 			 }	
 	}
+	
+	public String findProject(String tid) {
+		String tmp ="";
 		
-
+		 {
+			try {
+				BufferedReader br=new BufferedReader(new FileReader("Project.txt"));
+				  String display="";
+				   while( (display=br.readLine()) !=null )
+				   {
+				    String data[]=new String[2];
+				    data=display.split(",");
+				    for(int i=0;i<2;i++)
+				    {
+				    	
+				    if (tid.equals(data[i])) {
+				    	System.out.print(data[i]+" ");
+				    	System.out.print(data[i+1]+" ");
+				    	tmp=data[i+1];
+				    	
+				    }
+				     
+				    }
+				    System.out.println();
+				   }
+				  }
+				  catch(Exception e){}
+			 return tmp;
+			 }
+		
+		
+	}
 }

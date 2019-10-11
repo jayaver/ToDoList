@@ -25,11 +25,12 @@ public class Task {
 		System.out.println("assign task with project id:");
 		project.displayProject();
 		String tpid=input.nextLine(); 
+		String tmp = project.findProject(tpid);
 		  try
 		  {
 		   File f=new File("Task.txt");
 		   PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-		   pw.append("\n"+tid+","+tname+","+tdesc+","+tstatus+","+tdate + ","+tpid);
+		   pw.append("\n"+tid+","+tname+","+tdesc+","+tstatus+","+tdate + ","+tmp);
 		   pw.close();
 		  }
 		  catch(Exception e){}  
