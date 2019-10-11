@@ -5,11 +5,8 @@ import java.text.SimpleDateFormat;
 import java.io.*;
 import java.util.*;
 
-
 public class Test {
-
-	
-		 
+	 
 	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 		
@@ -28,7 +25,7 @@ public class Test {
 				project.displayProject();
 				break;
 			case 3:
-				task.addtask();
+				task.addTask();
 				
 				break;
 			case 4:

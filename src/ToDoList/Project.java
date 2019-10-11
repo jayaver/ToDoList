@@ -7,6 +7,9 @@ import java.util.*;
 public class Project {
 		 
 	Scanner input=new Scanner(System.in);
+	
+	//add project
+	
 	public void addProject() {
 			
 		System.out.println("Enter project id:");
@@ -23,6 +26,8 @@ public class Project {
 		  catch(Exception e){}  
 		 }
 	
+	
+	//display project list
 	public void displayProject() {
 		
 		 {
@@ -45,6 +50,7 @@ public class Project {
 			 }	
 	}
 	
+	//Find project 
 	public String findProject(String tid) {
 		String tmp ="";
 		
@@ -60,8 +66,7 @@ public class Project {
 				    {
 				    	
 				    if (tid.equals(data[i])) {
-				    	System.out.print(data[i]+" ");
-				    	System.out.print(data[i+1]+" ");
+				    	System.out.print(data[i]+" " + data[i+1]);
 				    	tmp=data[i+1];
 				    	
 				    }
