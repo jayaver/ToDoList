@@ -10,9 +10,11 @@ public class Task {
 	
 	Project project = new Project();
 	Scanner input=new Scanner(System.in);
+	private String lid;
 	
 	// Task creation
 	public void addTask() throws ParseException {
+		
 		int i=0;
 		int number;
 		System.out.println("How many task do you want to enter ;");
@@ -68,14 +70,20 @@ public class Task {
 					data=display.split(",");
 					for(int i=0;i<7;i++) {  
 						System.out.print(data[i]+" ");
+						if (i==0) {
+							 lid = data[i];
+						}
 					}
-					System.out.println();
+					System.out.println(lid);
 			   }
 			 }
 			  catch(Exception e){}
 			  
 			 }	
 	}
+	
+	
+	
 	
 	public void dateFormat(String value) {
 		

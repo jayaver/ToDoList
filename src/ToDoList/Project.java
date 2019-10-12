@@ -11,16 +11,40 @@ public class Project {
 	//add project
 	
 	public void addProject() {
+		
+		String tmpId = getProject();
+		String id;
+		System.out.println(tmpId);
+		if (tmpId.equals("")){
+			id = "101";
+			try
+			  {
+			   File f=new File("Project.txt");
+			   PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
+			   pw.append("Project id"+","+"pname"+"\n");
+			   pw.close();
+			  }
+			  catch(Exception e){}  
+			 
 			
-		System.out.println("Enter project id:");
-		String id=input.nextLine();
+			
+		}
+		else {
+			id = Integer.toString((Integer.parseInt(tmpId)+1));
+		}
+		
+		System.out.println(id);
+		
+			
+	//	System.out.println("Enter project id:");
+	//	String id=input.nextLine();
 		System.out.println("Enter project name:");
 		String pname=input.nextLine();  
 		  try
 		  {
 		   File f=new File("Project.txt");
 		   PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-		   pw.append("\n"+id+","+pname);
+		   pw.append(id+","+pname+"\n");
 		   pw.close();
 		  }
 		  catch(Exception e){}  
@@ -78,7 +102,34 @@ public class Project {
 				  catch(Exception e){}
 			 return tmp;
 			 }
-		
-		
+	}
+		 
+		 public String getProject() {
+			 String pid = "";
+			 {		
+				try {
+					BufferedReader br=new BufferedReader(new FileReader("Project.txt"));
+	  			    String display="";
+					   while( (display=br.readLine()) !=null ) {
+						    String data[]=new String[2];
+						    data=display.split(",");
+						    for(int i=0;i<1;i++) {  
+						    	if (i==0) {
+									pid = data[i];
+								}
+								else {
+									pid = "";
+								}
+						     
+						    }
+						   
+						  }
+						}
+						 catch(Exception e){}
+					 	
+				}
+			 System.out.println(pid);
+			 return pid;
+			 
 	}
 }
