@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Test {
 	 
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, FileNotFoundException {
 		// TODO Auto-generated method stub
 		
 		Project project = new Project();
@@ -29,7 +29,12 @@ public class Test {
 				task.addTask();
 				
 				break;
+				
 			case 4:
+				todo.editTask();
+				
+				break;
+			case 5:
 				task.displayTask();
 				
 				break;
