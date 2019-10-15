@@ -24,10 +24,7 @@ public class Project {
 			   pw.append("Project id"+","+"pname"+"\n");
 			   pw.close();
 			  }
-			  catch(Exception e){}  
-			 
-			
-			
+			  catch(Exception e){}  	
 		}
 		else {
 			id = Integer.toString((Integer.parseInt(tmpId)+1));

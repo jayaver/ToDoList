@@ -33,11 +33,9 @@ public class ToDo {
 		int selection;
 		System.out.println("\nEdit Option\n");
 		System.out.println("0. Exit from edit");
-		System.out.println("1. Title");
-		System.out.println("2. Description");
-		System.out.println("3. Due Date");
-		System.out.println("4. Update Status");
-		System.out.println("5. All");
+		System.out.println("1. Description");
+		System.out.println("2. Update Status");
+		
 		selection = input.nextInt();
 		
 		if (selection == 0) {
@@ -46,24 +44,16 @@ public class ToDo {
 		}
 		
 		if (selection ==1) {
+			task.updateDesc();
 			
 		}
 		
 		if (selection == 2) {
-			
-		}
-		
-		if (selection == 3) {
-			
-		}
-		
-		if (selection == 4) {
 			task.updateStatus();
-		}
-		
-		if (selection == 5) {
 			
 		}
+		
+		
 	}
 	
 	

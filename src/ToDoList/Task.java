@@ -34,7 +34,7 @@ public class Task {
 				   File f=new File("Task.txt");
 				   PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
 				   pw.append("Task_id"+","+"Task_Title"+","+"Task_Desc"+","+"Task_Date"+","+
-				   		"Due_Date"+","+ "Status"+","+"Project");
+				   		"Due_Date"+","+","+"Project"+"Status");
 				   pw.close();
 				  }
 				  catch(Exception e){}  							
@@ -76,11 +76,50 @@ public class Task {
 		}
 	}
 		
+	
+	public String findTask(String tid) {
+		String tmp ="";
 		
+		 {
+			try {
+				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
+				  String display="";
+				  boolean find = false;
+				   while( (display=br.readLine()) !=null && find ==false)
+				   {
+				    String data[]=new String[2];
+				    data=display.split(",");
+				    for(int i=0;i<2;i++)
+				    {
+				    	
+				    if (tid.equals(data[i])) {
+				    	System.out.println("Task No - "+data[i]+" details : ");
+				    	System.out.print(data[i+1]+" "+data[i+2]+" "+data[i+3]+
+				    			" "+data[i+4]+" "+data[i+5]+" "+data[i+6]);
+				    	System.out.println();
+				    	tmp=data[i+6];
+				    	find = true;
+				    	
+							/*
+							 * if (data[i+6].equals("close")) {
+							 * System.out.println("Updation denied as task is closed"); break; }
+							 */
+				    	
+				    }
+				     
+				    }
+				    System.out.println();
+				   }
+				  }
+				  catch(Exception e){}
+			 return tmp;
+			 }
+	}
+			
 	
 	public void displayTask() {
 		
-		 {
+	//	 {
 			try {
 			  
 				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
@@ -90,17 +129,17 @@ public class Task {
 					data=display.split(",");
 					for(int i=0;i<7;i++) {  
 						System.out.print(data[i]+" ");
-						if (i==0) {
-							 lid = data[i];
-						}
+					//	if (i==0) {
+					//		 lid = data[i];
+					//	}
 					}
-					System.out.println(lid);
+					System.out.println();
 			   }
 			 }
 			  catch(Exception e){}
 			  
 			 }	
-	}
+	//}
 	
 	public void updateStatus() throws FileNotFoundException {
 		String tmp ="";
@@ -108,10 +147,17 @@ public class Task {
 		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
 		System.out.println("Enter task id :");
 		String tmpId = input.next();
+		String tStatus=findTask(tmpId);
+		
+		//Checking task status
+		if (tStatus.equals("Close")) {
+			System.out.println("Updation denied as task is closed");
+			return;
+		}
 		System.out.println("Select progress id: ");
-		 displayProgress();
-		 String psid = input.next();
-		 String tmpId1 = getStatus(psid);
+		displayProgress();
+		String psid = input.next();
+		String tmpId1 = getStatus(psid);
 	
 		
 		 {
@@ -154,6 +200,66 @@ public class Task {
 			 }
 	}
 	
+	
+	public void updateDesc() throws FileNotFoundException {
+		
+		String tmp ="";
+		File f=new File("Temp.txt");
+		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
+		System.out.println("Enter task id :");
+		String tmpId = input.next();
+		String tStatus=findTask(tmpId);
+		
+		//Checking task status
+		
+		if (tStatus.equals("Close")) {
+			System.out.println("Updation denied as task is closed");
+			return;
+		}
+		
+		System.out.println("Enter new description: ");
+		String tmpDesc = input.next();
+		
+		 {
+			try {
+				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
+				  String display="";
+				  while( (display=br.readLine()) !=null )
+				  {
+				    String data[]=new String[7];
+				    data=display.split(",");
+				    for(int i=0;i<1;i++)
+				    {
+				    	
+				    if (tmpId.equals(data[i])) {
+				    	System.out.print(data[i]+" " + data[i+1]);
+				    	tmp=data[i+5];
+				    	pw.append(data[i]+","+data[i+1]+","+tmpDesc+","+data[i+3] +","
+				    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
+				    	
+				    }
+				    else {
+				    	pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
+						    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
+				    }
+				     
+				    }
+				    System.out.println();
+				   }
+				  	br.close();
+				  	pw.flush();
+				  	pw.close();
+				  	
+				  	File Task=new File ("Task.txt");
+				  	Task.delete();
+				  	new File("Temp.txt").renameTo(Task);
+				  
+				  }
+				  catch(Exception e){}
+			
+			 }
+		
+	}
 	
 	//Function for generation of auto Task Id
 	
