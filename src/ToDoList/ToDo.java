@@ -2,6 +2,7 @@ package ToDoList;
 
 import java.util.Date;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +56,34 @@ public class ToDo {
 		
 		
 	}
+	
+	public void displayTask() throws IOException {
+		int selection;
+		System.out.println("\nDisplay Option\n");
+		System.out.println("0. Exit from display");
+		System.out.println("1. Project-wise");
+		System.out.println("2. Status-wise");
+		
+		selection = input.nextInt();
+		
+		if (selection == 0) {
+			menu();
+			
+		}
+		
+		if (selection ==1) {
+			task.dispByProject();
+			
+		}
+		
+		if (selection == 2) {
+			task.dispByStatus();
+			
+		}
+		
+		
+	}
+
 	
 	
 }

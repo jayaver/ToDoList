@@ -1,6 +1,5 @@
 package ToDoList;
 
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.io.*;
@@ -10,10 +9,36 @@ public class Task {
 	
 	Project project = new Project();
 	Scanner input=new Scanner(System.in);
-	private String lid;
 	
-	// Task creation
+	private String tid;
+	private String ttitle;
+	private String tdesc;
+	private String tsdate;
+	private String tdate;
+	private String tstatus;
+	private String tproject;
 	
+	
+	public Task() {
+		
+	}
+	public Task(String tid, String title, String tdesc, String tsdate, 
+			String tdate, String tproject, String tstatus ) {
+		
+		this.tid=tid;
+		this.ttitle=title;
+		this.tdesc=tdesc;
+		this.tsdate=tsdate;
+		this.tdate=tdate;
+		this.tproject=tproject;
+		this.tstatus=tstatus;
+	}
+	
+	private ArrayList<Task> TaskList = new ArrayList<Task>();
+	
+	
+// Input of task and adding to file
+
 	public void addTask() throws ParseException {
 		
 		int i=0;
@@ -64,11 +89,12 @@ public class Task {
 			project.displayProject();
 			String tpid=input.next(); 
 			String assignPrj = project.findProject(tpid);
+			
 			try
 			{
 				File f=new File("Task.txt");
 				PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-				pw.append("\n"+tid+","+tname+","+tdesc+","+tsdate +","+tdate + ","+assignPrj+","+tstatus);
+				pw.append(tid+","+tname+","+tdesc+","+tsdate +","+tdate + ","+assignPrj+","+tstatus+"\n");
 				pw.close();
 			}
 			catch(Exception e){} 
@@ -99,12 +125,6 @@ public class Task {
 				    	System.out.println();
 				    	tmp=data[i+6];
 				    	find = true;
-				    	
-							/*
-							 * if (data[i+6].equals("close")) {
-							 * System.out.println("Updation denied as task is closed"); break; }
-							 */
-				    	
 				    }
 				     
 				    }
@@ -115,31 +135,36 @@ public class Task {
 			 return tmp;
 			 }
 	}
-			
 	
-	public void displayTask() {
-		
-	//	 {
-			try {
-			  
-				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
-				String display="";
-				while( (display=br.readLine()) !=null ) {
-					String data[]=new String[7];
-					data=display.split(",");
-					for(int i=0;i<7;i++) {  
-						System.out.print(data[i]+" ");
-					//	if (i==0) {
-					//		 lid = data[i];
-					//	}
-					}
-					System.out.println();
-			   }
-			 }
-			  catch(Exception e){}
-			  
-			 }	
-	//}
+	
+	//Adding data to ArrayList
+	public void addTaskToArrayList() throws IOException {
+		BufferedReader reader = new BufferedReader(new FileReader("task.txt")); 
+	
+	
+	//Reading Task records one by one
+	
+		String currentLine = reader.readLine();
+    
+		while (currentLine != null) {
+			String[] TaskDetail = currentLine.split(",");
+			String id = TaskDetail[0];
+			String title=TaskDetail[1];
+			String desc=TaskDetail[2];
+			String sdate=TaskDetail[3];
+			String date=TaskDetail[4];
+			String project = TaskDetail[5];
+			String status = TaskDetail[6];
+        
+			TaskList.add(new Task(id,title,desc,sdate,date,project,status));
+			currentLine = reader.readLine();
+       
+		}
+	}
+    
+
+	
+	
 	
 	public void updateStatus() throws FileNotFoundException {
 		String tmp ="";
@@ -200,7 +225,73 @@ public class Task {
 			 }
 	}
 	
+	//Project comparison
+	class projectCompare implements Comparator<Task>
+	{
+	    @Override
+	    public int compare(Task p1, Task p2)
+	    {
+	        return p1.tproject.compareTo(p2.tproject);
+	    }
+	}
 	
+	//Status comparison
+	class statusCompare implements Comparator<Task>
+	{
+	    @Override
+	    public int compare(Task s1, Task s2)
+	    {
+	        return s1.tstatus.compareTo(s2.tstatus);
+	    }
+	}
+	
+	@Override
+    public String toString() {
+		return tid + "\t"+ "\t" + ttitle + "\t"+ "\t" + tdesc + "\t"+ "\t" + tsdate + "\t"+ "\t" +
+				tdate+"\t"+ "\t"+tproject+"\t"+ "\t"+tstatus;
+		
+	}
+	
+	
+	//Sorting project-wise
+	public void dispByProject() throws IOException {
+		TaskList.clear();
+		
+		addTaskToArrayList();
+        
+        Collections.sort(TaskList, new projectCompare());
+        display();
+        
+		
+	}
+	
+	//Sorting status-wise	
+	public void dispByStatus() throws IOException {
+		
+		TaskList.clear();
+		addTaskToArrayList();
+        
+        Collections.sort(TaskList, new statusCompare());
+        display();
+        
+		
+	}
+	
+	//Display format for screen
+	public void display() {
+		System.out.println("Task List (Project-wise) :");
+    	System.out.println("**************************"+"\n");
+    	System.out.println("Id"+"\t"+"\t"+"Title"+"\t"+"\t"+"Description"+
+    	"\t"+"\t"+"Start Date"+"\t"+"\t"+"Due Date"+"\t"+"\t"+"Project" +
+    			"\t"+"\t"+"Status"+"\n");
+        for(Task tmpTask: TaskList){
+
+			System.out.println(tmpTask);
+        }
+	}
+		
+	
+	//Update Description
 	public void updateDesc() throws FileNotFoundException {
 		
 		String tmp ="";
@@ -321,12 +412,7 @@ public class Task {
 		}
 		 
 		 
-	 }
-	 
-	 
-		 
-	 
-	 
+	 }	 
 	 
 
 	// Date format validation
