@@ -245,12 +245,13 @@ public class Task {
 	    }
 	}
 	
-	@Override
-    public String toString() {
-		return tid + "\t"+ "\t" + ttitle + "\t"+ "\t" + tdesc + "\t"+ "\t" + tsdate + "\t"+ "\t" +
-				tdate+"\t"+ "\t"+tproject+"\t"+ "\t"+tstatus;
-		
-	}
+	/*
+	 * @Override public String toString() { return tid + "\t"+ "\t" + ttitle + "\t"+
+	 * "\t" + tdesc + "\t"+ "\t" + tsdate + "\t"+ "\t" + tdate+"\t"+
+	 * "\t"+tproject+"\t"+ "\t"+tstatus;
+	 * 
+	 * }
+	 */
 	
 	
 	//Sorting project-wise
@@ -277,21 +278,22 @@ public class Task {
 		
 	}
 	
-	//Display format for screen
+	//Display method for format of printing
 	public void display() {
+		String specifiers = "%-20s %-20s %-20s %-20s %-20s %-20s %-20s%n";
 		System.out.println("Task List (Project-wise) :");
     	System.out.println("**************************"+"\n");
-    	System.out.println("Id"+"\t"+"\t"+"Title"+"\t"+"\t"+"Description"+
-    	"\t"+"\t"+"Start Date"+"\t"+"\t"+"Due Date"+"\t"+"\t"+"Project" +
-    			"\t"+"\t"+"Status"+"\n");
+    	System.out.format(specifiers, "Id", "Title", "Description", "Start Date", "Due Date",
+    	"Project","Status");
         for(Task tmpTask: TaskList){
-
-			System.out.println(tmpTask);
+        	
+        	
+			System.out.format(specifiers, tmpTask.tid, tmpTask.ttitle, 
+					tmpTask.tdesc, tmpTask.tsdate, tmpTask.tdate, tmpTask.tproject, tmpTask.tstatus );
+			
         }
 	}
 		
-	
-	//Update Description
 	public void updateDesc() throws FileNotFoundException {
 		
 		String tmp ="";
