@@ -245,14 +245,15 @@ public class Task {
 	    }
 	}
 	
-	/*
-	 * @Override public String toString() { return tid + "\t"+ "\t" + ttitle + "\t"+
-	 * "\t" + tdesc + "\t"+ "\t" + tsdate + "\t"+ "\t" + tdate+"\t"+
-	 * "\t"+tproject+"\t"+ "\t"+tstatus;
-	 * 
-	 * }
-	 */
-	
+	//Date comparison
+	class dateCompare implements Comparator<Task>
+		{
+		    @Override
+		    public int compare(Task d1, Task d2)
+		    {
+		        return d1.tdate.compareTo(d2.tdate);
+		    }
+		}
 	
 	//Sorting project-wise
 	public void dispByProject() throws IOException {
@@ -278,11 +279,29 @@ public class Task {
 		
 	}
 	
+	//Sorting date-wise	
+		public void dispByDate() throws IOException {
+			
+			TaskList.clear();
+			addTaskToArrayList();
+	        
+	        Collections.sort(TaskList, new dateCompare());
+	        display();
+	        
+			
+		}
+	
 	//Display method for format of printing
 	public void display() {
+		
+		int oc = openCount();
+		int cc= count();
+
 		String specifiers = "%-20s %-20s %-20s %-20s %-20s %-20s %-20s%n";
 		System.out.println("Task List (Project-wise) :");
-    	System.out.println("**************************"+"\n");
+		System.out.println("**************************"+"\n");
+		System.out.println("You have " + oc + " opend task & " + cc + " closed task");
+    	
     	System.out.format(specifiers, "Id", "Title", "Description", "Start Date", "Due Date",
     	"Project","Status");
         for(Task tmpTask: TaskList){
@@ -293,6 +312,38 @@ public class Task {
 			
         }
 	}
+	
+	//Counting close task
+	
+	public int count() {
+		int closeCnt = 0;
+		int size = TaskList.size();
+			
+		for (int i=0; i<size; i++) {
+			if (TaskList.get(i).tstatus.equals("Close")) {
+				closeCnt++;
+			}
+				
+		}
+		return closeCnt;
+
+	}
+		
+	//Counting open task
+		
+	public int openCount() {
+		int openCnt = 0;
+		int size = TaskList.size();
+		for (int i=0; i<size; i++) {
+			if (!TaskList.get(i).tstatus.equals("Close")) {
+				openCnt++;
+			}
+					
+		}
+		return openCnt;
+
+	}
+		
 		
 	public void updateDesc() throws FileNotFoundException {
 		
@@ -353,6 +404,7 @@ public class Task {
 			 }
 		
 	}
+	
 	
 	//Function for generation of auto Task Id
 	

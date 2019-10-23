@@ -63,6 +63,7 @@ public class ToDo {
 		System.out.println("0. Exit from display");
 		System.out.println("1. Project-wise");
 		System.out.println("2. Status-wise");
+		System.out.println("3. Date-wise");
 		
 		selection = input.nextInt();
 		
@@ -78,6 +79,11 @@ public class ToDo {
 		
 		if (selection == 2) {
 			task.dispByStatus();
+			
+		}
+		
+		if (selection == 3) {
+			task.dispByDate();
 			
 		}
 		

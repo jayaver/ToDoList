@@ -35,7 +35,7 @@ public class Test {
 				
 				break;
 			case 5:
-				todo.displayTask();;
+				todo.displayTask();
 				
 				break;
 			case 0:
