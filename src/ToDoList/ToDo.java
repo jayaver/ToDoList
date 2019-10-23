@@ -52,21 +52,36 @@ public class ToDo {
 				else {
 					tid = Integer.toString((Integer.parseInt(tmpId)+1));
 				}
-				
+				System.out.println("Task id : " +tid);
 				//input from user
-			System.out.println("Enter task title:");
-			String tname=input.next();
-			emptyCheck(tname);
-			System.out.println("Enter task desc:");
-			String tdesc=input.next();
-			emptyCheck(tdesc);
-			String tstatus="Open";
+				String tname;
+				String tdesc;
+				String tstatus;
+				boolean result;
+			//Checking null input from user
+			do {
+				System.out.println("Enter task title:");
+				tname=input.next();
+			
+				System.out.println("Enter task desc:");
+				tdesc=input.next();
+				result = isNullOrEmpty(tname, tdesc);
+			}while(result);
+			
+			tstatus="Open";
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date ();
 			String tsdate = sdf.format(date);
-			System.out.println("Enter task due date (dd/mm/yyyy) :");
-			String tdate=input.next(); 
-			dateFormat(tdate);	
+			boolean valid;
+			String tdate;
+			//Checking date format
+			do {
+				System.out.println("Enter task due date (dd/mm/yyyy) :");
+				tdate=input.next(); 
+				valid = dateFormat(tdate);
+			}while(!valid);
+			
+				
 			
 			//assigning project with task
 				
@@ -398,7 +413,7 @@ public class ToDo {
 			}
 			catch(Exception e){}
 			
-			System.out.println("Task id : " +tid);
+			
 			 return tid;
 	}
 	
@@ -430,31 +445,35 @@ public class ToDo {
 	}
 				 
 	// Date format validation
-	public void dateFormat(String value) {		
+	public boolean dateFormat(String value) {		
 		boolean checkFormat;
 
 		if (value.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
 			    checkFormat=true;
+			    return checkFormat;
 		}
-		else {
+		else {	
 			   checkFormat=false;
-				System.out.println("Invalid date format. Run program again");
+				System.out.println("Invalid date format.\n");
 				value = null;
-				System.exit(0);
+				return checkFormat;
+				
 		}	
 	}
 		
 	//Blank value validation
 		
-	public void emptyCheck(String value) {
-			
-		if (value.isEmpty()) {
-			System.out.println("Invalid input. Run program again");
-			System.exit(0);
-			    	
-		}
-			   
+	public static boolean isNullOrEmpty(String... strArr) {
+	     for (String st : strArr) {
+	         if  (st==null || st.equals(""))
+	             return true;
+
+	       } 
+	       return false;
 	}
+
+			   
+	
 		
 	// Progress list display
 	public void displayProgress() {

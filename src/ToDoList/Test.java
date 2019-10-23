@@ -24,7 +24,7 @@ public class Test {
 				project.displayProject();
 				break;
 			case 3:
-				todo.addTask();	
+				addTask();	
 				break;			
 			case 4:
 				editTask();
@@ -35,6 +35,7 @@ public class Test {
 			case 0:
 				default:
 					System.out.println("Don't recognize input." );
+					
 				
 			}
 		}	 
@@ -115,6 +116,41 @@ public class Test {
 			todo.dispByDate();	
 		}
 	
+	}
+	
+	public static void addTask() throws IOException, ParseException {
+		Scanner input = new Scanner (System.in);
+		String ans;
+		Task task = new Task();
+		ToDo todo = new ToDo();
+		
+		boolean valid;
+		do {
+			System.out.println("Do you want to continue? (Y/N)\n");
+			ans = input.next();
+	        valid = validateUserInput(ans);
+	    } while (!valid);
+		
+		if (ans.equals("Y")) {
+			todo.addTask();	
+		}
+	
+		if (ans.equals("N")) {
+			menu();	
+		}
+		
+	}
+	
+	//Method for correct input
+	private static boolean validateUserInput(String userInput) {
+	    if (userInput.matches("Y") || userInput.matches("N")) {
+	        return true;      
+	    }
+	    else {
+	    	System.out.println("Enter only (Y/N) \n");
+	    	return false;
+	    }
+	    
 	}
 }
 	
