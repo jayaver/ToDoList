@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -73,15 +76,14 @@ public class ToDo {
 			Date date = new Date ();
 			String tsdate = sdf.format(date);
 			boolean valid;
+			boolean dtCheck;
 			String tdate;
-			//Checking date format
+			//Checking date format && compare with current date
 			do {
 				System.out.println("Enter task due date (dd/mm/yyyy) :");
 				tdate=input.next(); 
-				valid = dateFormat(tdate);
+				valid = dateFormat(tdate);				
 			}while(!valid);
-			
-				
 			
 			//assigning project with task
 				
@@ -389,7 +391,7 @@ public class ToDo {
 
 		
 		
-	//Function for generation of auto Task Id
+	// Searching last id no for generation of auto-id in addTask()
 		
 	public String getTask() {
 		String tid = "";
@@ -418,17 +420,17 @@ public class ToDo {
 	}
 	
 	//	getting task status
-		 public String getStatus(String id) {
+	public String getStatus(String id) {
 			 
-			 String tmp ="";
+		String tmp ="";
 			 
-				try {
-					BufferedReader br=new BufferedReader(new FileReader("status.txt"));
-					String display="";
-					while( (display=br.readLine()) !=null ) {
-					    String data[]=new String[2];
-					    data=display.split(",");
-					    for(int i=0;i<2;i++)
+			try {
+				BufferedReader br=new BufferedReader(new FileReader("status.txt"));
+				String display="";
+				while( (display=br.readLine()) !=null ) {
+					 String data[]=new String[2];
+					 data=display.split(",");
+					  for(int i=0;i<2;i++)
 					    {
 					    	if (id.equals(data[i])) {
 					    	System.out.print(data[i]+" " + data[i+1]);
@@ -444,13 +446,31 @@ public class ToDo {
 				return tmp;
 	}
 				 
-	// Date format validation
+	// Date format validation && past date validation
 	public boolean dateFormat(String value) {		
 		boolean checkFormat;
-
+		boolean checkDate;
 		if (value.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
 			    checkFormat=true;
-			    return checkFormat;
+			   
+			    DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd/MM/uuuu" );
+				ZoneId z = ZoneId.of( "Europe/Stockholm" );
+				LocalDate today = LocalDate.now( z );
+				LocalDate ld = LocalDate.parse( value , f );
+				
+				if( ld.isBefore( today ) ) {  // Before today.
+					  System.out.println("The date: " + ld + 
+						" is in the past, before today: " + today );
+					  checkDate = false;
+					  value = null;
+					  return checkDate;
+					}
+				else {	
+					   checkDate=true;		
+						return checkDate;
+						
+				}
+				
 		}
 		else {	
 			   checkFormat=false;
