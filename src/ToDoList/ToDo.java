@@ -215,6 +215,109 @@ public class ToDo {
 		catch(Exception e){}
 				
 	}
+	
+	// Description update
+	public void updateDesc() throws FileNotFoundException {
+		
+		String tmp ="";
+		File f=new File("Temp.txt");
+		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
+		System.out.println("Enter task id :");
+		String tmpId = input.next();
+		String tStatus=findTask(tmpId);
+			
+		//Checking task status
+			
+		if (tStatus.equals("Close")) {
+			System.out.println("Updation denied as task is closed");
+			return;
+		}
+			
+		System.out.println("Enter new description: ");
+		String tmpDesc = input.next();
+		
+			try {
+				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
+				String display="";
+				while( (display=br.readLine()) !=null ) { 
+					String data[]=new String[7];
+					data=display.split(",");
+					for(int i=0;i<1;i++){    	
+					    if (tmpId.equals(data[i])) {
+					    	System.out.print(data[i]+" " + data[i+1]);
+					    	tmp=data[i+5];
+					    	pw.append(data[i]+","+data[i+1]+","+tmpDesc+","+data[i+3] +","
+					    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");    	
+					    }
+					    else {
+					    	pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
+							    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
+					    }
+					     
+					}
+					    
+				}
+				br.close();
+				pw.flush();
+				pw.close();
+				//Deleting old Task file  	
+				File Task=new File ("Task.txt");
+				Task.delete();
+				//Renaming temp file to Task file
+				new File("Temp.txt").renameTo(Task);
+					  
+			}
+			catch(Exception e){}
+				
+	}	
+
+	// Task remove from file
+	public void removeTask() throws IOException {
+		// Displaying current list of task with details to make easy for user input
+		dispById();
+		
+		//Create new temporary file
+		File f=new File("Temp.txt");
+		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
+			
+		System.out.println("\nEnter task id :");
+		String tmpId = input.next();
+		
+			
+		try {
+			BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
+			String display="";
+			while( (display=br.readLine()) !=null ) {	  
+				String data[]=new String[7];
+				data=display.split(",");
+				for(int i=0;i<1;i++) {					    	
+					if (tmpId.equals(data[i])) {
+					  //  String tmp=data[i+5];
+					    pw.append("");
+					    	
+					 }
+					 else {
+					    pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
+					    +data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
+					}
+					     
+				}
+					    
+			}
+			br.close();
+			pw.flush();
+			pw.close();
+					
+			//Deleting old task file
+			File Task=new File ("Task.txt");
+			Task.delete();
+			//Renaming Temp.txt to task.txt
+			new File("Temp.txt").renameTo(Task);
+					  
+		}
+		catch(Exception e){}
+				
+	}
 		
 	//Project comparison
 	class projectCompare implements Comparator<Task>{
@@ -335,60 +438,7 @@ public class ToDo {
 	}
 			
 			
-	public void updateDesc() throws FileNotFoundException {
-			
-		String tmp ="";
-		File f=new File("Temp.txt");
-		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-		System.out.println("Enter task id :");
-		String tmpId = input.next();
-		String tStatus=findTask(tmpId);
-			
-		//Checking task status
-			
-		if (tStatus.equals("Close")) {
-			System.out.println("Updation denied as task is closed");
-			return;
-		}
-			
-		System.out.println("Enter new description: ");
-		String tmpDesc = input.next();
-		
-			try {
-				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
-				String display="";
-				while( (display=br.readLine()) !=null ) { 
-					String data[]=new String[7];
-					data=display.split(",");
-					for(int i=0;i<1;i++){    	
-					    if (tmpId.equals(data[i])) {
-					    	System.out.print(data[i]+" " + data[i+1]);
-					    	tmp=data[i+5];
-					    	pw.append(data[i]+","+data[i+1]+","+tmpDesc+","+data[i+3] +","
-					    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");    	
-					    }
-					    else {
-					    	pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
-							    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
-					    }
-					     
-					}
-					    
-				}
-				br.close();
-				pw.flush();
-				pw.close();
-				//Deleting old Task file  	
-				File Task=new File ("Task.txt");
-				Task.delete();
-				//Renaming temp file to Task file
-				new File("Temp.txt").renameTo(Task);
-					  
-			}
-			catch(Exception e){}
-				
-	}	
-
+	
 		
 		
 	// Searching last id no for generation of auto-id in addTask()

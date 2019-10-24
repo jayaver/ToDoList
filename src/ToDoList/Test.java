@@ -32,9 +32,12 @@ public class Test {
 			case 5:
 				displayTask();
 				break;
+			case 6:
+				todo.removeTask();
+				break;
 			case 0:
 				default:
-					System.out.println("Don't recognize input." );
+					System.out.println("Thank you for using ToDo App." );
 					
 				
 			}
@@ -54,6 +57,7 @@ public class Test {
 		System.out.println("3. Add Task");
 		System.out.println("4. Edit Task");
 		System.out.println("5. Display Task");
+		System.out.println("6. Remove Task");
 		System.out.println();
 		System.out.println("Enter choice :");
 		choice = input.nextInt();
