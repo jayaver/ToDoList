@@ -39,9 +39,12 @@ public class Project {
 			  PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
 			  pw.append(id+","+pname+"\n");
 			  pw.close();
+			  System.out.println(id + "  "+ pname + " " + " added successfully in file");
 		  }
 		  catch(Exception e){}  
 	}
+	
+	
 	
 	
 	//display project list
@@ -76,6 +79,7 @@ public class Project {
 				BufferedReader br=new BufferedReader(new FileReader("Project.txt"));
 				String display="";
 				boolean find = false;
+				System.out.println();
 				while( (display=br.readLine()) !=null && find ==false)
 				   {
 				    String data[]=new String[2];
@@ -84,14 +88,13 @@ public class Project {
 				    {
 				    	
 				    	if (tid.equals(data[i])) {
-				    		System.out.print("Project assigned : " +data[i+1]);
 				    		tmp=data[i+1];
 				    		find = true;
 				    	
 				    	}
 				     
 				    }
-				    System.out.println();
+				    
 				 }
 			}
 			catch(Exception e){}

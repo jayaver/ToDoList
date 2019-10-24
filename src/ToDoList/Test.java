@@ -50,8 +50,9 @@ public class Test {
 	public static int menu() {
 		Scanner input = new Scanner (System.in);
 		int choice;
-		System.out.println("\nMain Menu\n");
-		System.out.println("0. Exit the program");
+		System.out.println("\n Main Menu");
+		System.out.println("***********\n");
+		System.out.println("0. Exit from application");
 		System.out.println("1. Add Project");
 		System.out.println("2. Display Project");
 		System.out.println("3. Add Task");
@@ -82,10 +83,12 @@ public class Test {
 	
 		if (selection ==1) {
 			todo.updateDesc();
+			return;
 		}
 	
 		if (selection == 2) {
-			todo.updateStatus();	
+			todo.updateStatus();
+			return;
 		}
 
 	}
@@ -101,6 +104,7 @@ public class Test {
 		System.out.println("1. Project-wise");
 		System.out.println("2. Status-wise");
 		System.out.println("3. Date-wise");
+		System.out.println("4. Task Id-wise");
 	
 		selection = input.nextInt();
 	
@@ -118,6 +122,10 @@ public class Test {
 	
 		if (selection == 3) {
 			todo.dispByDate();	
+		}
+		
+		if (selection == 4) {
+			todo.dispById();	
 		}
 	
 	}
