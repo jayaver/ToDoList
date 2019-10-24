@@ -1,4 +1,4 @@
-package ToDoList;
+package Testing;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ public class Test {
 				project.displayProject();
 				break;
 			case 3:
-				addTask();	
+				todo.addTask();	
 				break;			
 			case 4:
 				editTask();
@@ -32,13 +32,9 @@ public class Test {
 			case 5:
 				displayTask();
 				break;
-			case 6:
-				todo.removeTask();
-				break;
 			case 0:
 				default:
-					System.out.println("Thank you for using ToDo App." );
-					
+					System.out.println("Don't recognize input." );
 				
 			}
 		}	 
@@ -57,7 +53,6 @@ public class Test {
 		System.out.println("3. Add Task");
 		System.out.println("4. Edit Task");
 		System.out.println("5. Display Task");
-		System.out.println("6. Remove Task");
 		System.out.println();
 		System.out.println("Enter choice :");
 		choice = input.nextInt();
@@ -120,41 +115,6 @@ public class Test {
 			todo.dispByDate();	
 		}
 	
-	}
-	
-	public static void addTask() throws IOException, ParseException {
-		Scanner input = new Scanner (System.in);
-		String ans;
-		Task task = new Task();
-		ToDo todo = new ToDo();
-		
-		boolean valid;
-		do {
-			System.out.println("Do you want to continue? (Y/N)\n");
-			ans = input.next();
-	        valid = validateUserInput(ans);
-	    } while (!valid);
-		
-		if (ans.equals("Y")) {
-			todo.addTask();	
-		}
-	
-		if (ans.equals("N")) {
-			menu();	
-		}
-		
-	}
-	
-	//Method for correct input
-	private static boolean validateUserInput(String userInput) {
-	    if (userInput.matches("Y") || userInput.matches("N")) {
-	        return true;      
-	    }
-	    else {
-	    	System.out.println("Enter only (Y/N) \n");
-	    	return false;
-	    }
-	    
 	}
 }
 	

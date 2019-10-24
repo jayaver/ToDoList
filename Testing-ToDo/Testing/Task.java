@@ -1,4 +1,4 @@
-package ToDoList;
+package Testing;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,7 +61,6 @@ public class Task {
 		return tproject;
 	}
 	
-	
-	
+
 	
 }

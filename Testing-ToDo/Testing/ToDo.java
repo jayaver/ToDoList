@@ -1,4 +1,4 @@
-package ToDoList;
+package Testing;
 
 import java.util.Date;
 import java.io.BufferedReader;
@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,35 +52,21 @@ public class ToDo {
 				else {
 					tid = Integer.toString((Integer.parseInt(tmpId)+1));
 				}
-				System.out.println("Task id : " +tid);
+				
 				//input from user
-				String tname;
-				String tdesc;
-				String tstatus;
-				boolean result;
-			//Checking null input from user
-			do {
-				System.out.println("Enter task title:");
-				tname=input.next();
-			
-				System.out.println("Enter task desc:");
-				tdesc=input.next();
-				result = isNullOrEmpty(tname, tdesc);
-			}while(result);
-			
-			tstatus="Open";
+			System.out.println("Enter task title:");
+			String tname=input.next();
+			emptyCheck(tname);
+			System.out.println("Enter task desc:");
+			String tdesc=input.next();
+			emptyCheck(tdesc);
+			String tstatus="Open";
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 			Date date = new Date ();
 			String tsdate = sdf.format(date);
-			boolean valid;
-			boolean dtCheck;
-			String tdate;
-			//Checking date format && compare with current date
-			do {
-				System.out.println("Enter task due date (dd/mm/yyyy) :");
-				tdate=input.next(); 
-				valid = dateFormat(tdate);				
-			}while(!valid);
+			System.out.println("Enter task due date (dd/mm/yyyy) :");
+			String tdate=input.next(); 
+			dateFormat(tdate);	
 			
 			//assigning project with task
 				
@@ -191,109 +174,6 @@ public class ToDo {
 					    String tmp=data[i+5];
 					    pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
 					    +data[i+4] + ","+data[i+5]+","+tmpId1+"\n");
-					    	
-					 }
-					 else {
-					    pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
-					    +data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
-					}
-					     
-				}
-					    
-			}
-			br.close();
-			pw.flush();
-			pw.close();
-					
-			//Deleting old task file
-			File Task=new File ("Task.txt");
-			Task.delete();
-			//Renaming Temp.txt to task.txt
-			new File("Temp.txt").renameTo(Task);
-					  
-		}
-		catch(Exception e){}
-				
-	}
-	
-	// Description update
-	public void updateDesc() throws FileNotFoundException {
-		
-		String tmp ="";
-		File f=new File("Temp.txt");
-		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-		System.out.println("Enter task id :");
-		String tmpId = input.next();
-		String tStatus=findTask(tmpId);
-			
-		//Checking task status
-			
-		if (tStatus.equals("Close")) {
-			System.out.println("Updation denied as task is closed");
-			return;
-		}
-			
-		System.out.println("Enter new description: ");
-		String tmpDesc = input.next();
-		
-			try {
-				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
-				String display="";
-				while( (display=br.readLine()) !=null ) { 
-					String data[]=new String[7];
-					data=display.split(",");
-					for(int i=0;i<1;i++){    	
-					    if (tmpId.equals(data[i])) {
-					    	System.out.print(data[i]+" " + data[i+1]);
-					    	tmp=data[i+5];
-					    	pw.append(data[i]+","+data[i+1]+","+tmpDesc+","+data[i+3] +","
-					    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");    	
-					    }
-					    else {
-					    	pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
-							    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
-					    }
-					     
-					}
-					    
-				}
-				br.close();
-				pw.flush();
-				pw.close();
-				//Deleting old Task file  	
-				File Task=new File ("Task.txt");
-				Task.delete();
-				//Renaming temp file to Task file
-				new File("Temp.txt").renameTo(Task);
-					  
-			}
-			catch(Exception e){}
-				
-	}	
-
-	// Task remove from file
-	public void removeTask() throws IOException {
-		// Displaying current list of task with details to make easy for user input
-		dispById();
-		
-		//Create new temporary file
-		File f=new File("Temp.txt");
-		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-			
-		System.out.println("\nEnter task id :");
-		String tmpId = input.next();
-		
-			
-		try {
-			BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
-			String display="";
-			while( (display=br.readLine()) !=null ) {	  
-				String data[]=new String[7];
-				data=display.split(",");
-				for(int i=0;i<1;i++) {					    	
-					if (tmpId.equals(data[i])) {
-					  //  String tmp=data[i+5];
-					    pw.append("");
 					    	
 					 }
 					 else {
@@ -438,10 +318,63 @@ public class ToDo {
 	}
 			
 			
-	
+	public void updateDesc() throws FileNotFoundException {
+			
+		String tmp ="";
+		File f=new File("Temp.txt");
+		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
+		System.out.println("Enter task id :");
+		String tmpId = input.next();
+		String tStatus=findTask(tmpId);
+			
+		//Checking task status
+			
+		if (tStatus.equals("Close")) {
+			System.out.println("Updation denied as task is closed");
+			return;
+		}
+			
+		System.out.println("Enter new description: ");
+		String tmpDesc = input.next();
+		
+			try {
+				BufferedReader br=new BufferedReader(new FileReader("Task.txt"));
+				String display="";
+				while( (display=br.readLine()) !=null ) { 
+					String data[]=new String[7];
+					data=display.split(",");
+					for(int i=0;i<1;i++){    	
+					    if (tmpId.equals(data[i])) {
+					    	System.out.print(data[i]+" " + data[i+1]);
+					    	tmp=data[i+5];
+					    	pw.append(data[i]+","+data[i+1]+","+tmpDesc+","+data[i+3] +","
+					    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");    	
+					    }
+					    else {
+					    	pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
+							    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");
+					    }
+					     
+					}
+					    
+				}
+				br.close();
+				pw.flush();
+				pw.close();
+				//Deleting old Task file  	
+				File Task=new File ("Task.txt");
+				Task.delete();
+				//Renaming temp file to Task file
+				new File("Temp.txt").renameTo(Task);
+					  
+			}
+			catch(Exception e){}
+				
+	}	
+
 		
 		
-	// Searching last id no for generation of auto-id in addTask()
+	//Function for generation of auto Task Id
 		
 	public String getTask() {
 		String tid = "";
@@ -465,22 +398,22 @@ public class ToDo {
 			}
 			catch(Exception e){}
 			
-			
+			System.out.println("Task id : " +tid);
 			 return tid;
 	}
 	
 	//	getting task status
-	public String getStatus(String id) {
+		 public String getStatus(String id) {
 			 
-		String tmp ="";
+			 String tmp ="";
 			 
-			try {
-				BufferedReader br=new BufferedReader(new FileReader("status.txt"));
-				String display="";
-				while( (display=br.readLine()) !=null ) {
-					 String data[]=new String[2];
-					 data=display.split(",");
-					  for(int i=0;i<2;i++)
+				try {
+					BufferedReader br=new BufferedReader(new FileReader("status.txt"));
+					String display="";
+					while( (display=br.readLine()) !=null ) {
+					    String data[]=new String[2];
+					    data=display.split(",");
+					    for(int i=0;i<2;i++)
 					    {
 					    	if (id.equals(data[i])) {
 					    	System.out.print(data[i]+" " + data[i+1]);
@@ -496,54 +429,32 @@ public class ToDo {
 				return tmp;
 	}
 				 
-	// Date format validation && past date validation
-	public boolean dateFormat(String value) {		
+	// Date format validation
+	public void dateFormat(String value) {		
 		boolean checkFormat;
-		boolean checkDate;
+
 		if (value.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
 			    checkFormat=true;
-			   
-			    DateTimeFormatter f = DateTimeFormatter.ofPattern( "dd/MM/uuuu" );
-				ZoneId z = ZoneId.of( "Europe/Stockholm" );
-				LocalDate today = LocalDate.now( z );
-				LocalDate ld = LocalDate.parse( value , f );
-				
-				if( ld.isBefore( today ) ) {  // Before today.
-					  System.out.println("The date: " + ld + 
-						" is in the past, before today: " + today );
-					  checkDate = false;
-					  value = null;
-					  return checkDate;
-					}
-				else {	
-					   checkDate=true;		
-						return checkDate;
-						
-				}
-				
 		}
-		else {	
+		else {
 			   checkFormat=false;
-				System.out.println("Invalid date format.\n");
+				System.out.println("Invalid date format. Run program again");
 				value = null;
-				return checkFormat;
-				
+				System.exit(0);
 		}	
 	}
 		
 	//Blank value validation
 		
-	public static boolean isNullOrEmpty(String... strArr) {
-	     for (String st : strArr) {
-	         if  (st==null || st.equals(""))
-	             return true;
-
-	       } 
-	       return false;
-	}
-
+	public void emptyCheck(String value) {
+			
+		if (value.isEmpty()) {
+			System.out.println("Invalid input. Run program again");
+			System.exit(0);
+			    	
+		}
 			   
-	
+	}
 		
 	// Progress list display
 	public void displayProgress() {
