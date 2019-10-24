@@ -32,7 +32,7 @@ public class ToDo {
 			
 		int i=0;
 		int number;
-		System.out.println("How many task do you want to enter ;");
+		System.out.println("How many task do you want to enter ?");
 		number = input.nextInt();
 			
 		while (i<number){
@@ -46,8 +46,6 @@ public class ToDo {
 					  {
 					   File f=new File("Task.txt");
 					   PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-					   pw.append("Task_id"+","+"Task_Title"+","+"Task_Desc"+","+"Task_Date"+","+
-					   		"Due_Date"+","+","+"Project"+"Status");
 					   pw.close();
 					  }
 					  catch(Exception e){}  							
@@ -76,7 +74,6 @@ public class ToDo {
 			Date date = new Date ();
 			String tsdate = sdf.format(date);
 			boolean valid;
-			boolean dtCheck;
 			String tdate;
 			//Checking date format && compare with current date
 			do {
@@ -91,17 +88,23 @@ public class ToDo {
 			project.displayProject();
 			String tpid=input.next(); 
 			String assignPrj = project.findProject(tpid);
-				
+			System.out.print(assignPrj + " assigned to task id " + tid + ".\n");
+			System.out.println();
 				try
 				{
 					File f=new File("Task.txt");
 					PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
-					pw.append(tid+","+tname+","+tdesc+","+tsdate +","+tdate + ","+assignPrj+","+tstatus+"\n");
+					pw.append("\n"+tid+","+tname+","+tdesc+","+tsdate +","+tdate + ","+assignPrj+","+tstatus);
 					pw.close();
 				}
 				catch(Exception e){} 
 				i++;
+				
+				System.out.println("Successfully added in file: \n");
+				System.out.println(tid+" "+tname+" "+tdesc+" "+tsdate +" "+tdate + " "+assignPrj+" "+tstatus);
+				
 			}
+			
 	}
 			
 	//Find task based on id number and return status
@@ -191,6 +194,10 @@ public class ToDo {
 					    String tmp=data[i+5];
 					    pw.append(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
 					    +data[i+4] + ","+data[i+5]+","+tmpId1+"\n");
+					    
+					    System.out.println("Status updated of " + data[i]);
+					    System.out.println(data[i]+","+data[i+1]+","+data[i+2]+","+data[i+3] +","
+					    +data[i+4] + ","+data[i+5]+","+tmpId1+"\n");
 					    	
 					 }
 					 else {
@@ -217,8 +224,8 @@ public class ToDo {
 	}
 	
 	// Description update
-	public void updateDesc() throws FileNotFoundException {
-		
+	public void updateDesc() throws IOException {
+		dispById();
 		String tmp ="";
 		File f=new File("Temp.txt");
 		PrintWriter pw=new PrintWriter(new FileOutputStream(f,true));
@@ -244,8 +251,8 @@ public class ToDo {
 					data=display.split(",");
 					for(int i=0;i<1;i++){    	
 					    if (tmpId.equals(data[i])) {
-					    	System.out.print(data[i]+" " + data[i+1]);
-					    	tmp=data[i+5];
+					    	System.out.print(data[i]+" updated successfully with description " + tmpDesc+"\n");
+					    	
 					    	pw.append(data[i]+","+data[i+1]+","+tmpDesc+","+data[i+3] +","
 					    	+data[i+4] + ","+data[i+5]+","+data[i+6]+"\n");    	
 					    }
@@ -292,6 +299,7 @@ public class ToDo {
 				data=display.split(",");
 				for(int i=0;i<1;i++) {					    	
 					if (tmpId.equals(data[i])) {
+						System.out.println(tmpId + " removed successfully ");
 					  //  String tmp=data[i+5];
 					    pw.append("");
 					    	
@@ -304,6 +312,7 @@ public class ToDo {
 				}
 					    
 			}
+			
 			br.close();
 			pw.flush();
 			pw.close();
@@ -336,8 +345,6 @@ public class ToDo {
 		 public int compare(Task s1, Task s2)
 		  	{
 				return s1.getTstatus().compareTo(s2.getTstatus());
-			
-			//return Integer.valueOf(s1.getTstatus()).compareTo(Integer.valueOf(s2.getTstatus()));
 		    }
 	}
 		
@@ -346,7 +353,23 @@ public class ToDo {
 		@Override
 		public int compare(Task d1, Task d2)
 			{
-			    return d1.getTdate().compareTo(d2.getTdate());
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			Date date1=new Date();
+			Date date2= new Date();
+			try {
+				 date1 = format.parse(d1.getTdate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				date2 = format.parse(d2.getTdate());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				return date1.compareTo(date2);
 			}
 	}
 		
@@ -355,7 +378,9 @@ public class ToDo {
 		TaskList.clear();		
 		addTaskToArrayList();       
 	    Collections.sort(TaskList, new projectCompare());
-	    display();	
+	    System.out.println("Task List (Project-wise) :");
+		System.out.println("**************************"+"\n");
+	    format();	
 	}
 		
 	//Sorting status-wise	
@@ -363,7 +388,9 @@ public class ToDo {
 		TaskList.clear();
 		addTaskToArrayList();      
 	    Collections.sort(TaskList, new statusCompare());
-	    display();	      			
+	    System.out.println("Task List (Status-wise) :");
+		System.out.println("**************************"+"\n");
+	    format();	      			
 	}
 		
 	//Sorting date-wise	
@@ -371,19 +398,23 @@ public class ToDo {
 		TaskList.clear();
 		addTaskToArrayList();    
 		Collections.sort(TaskList, new dateCompare());
-		display();		
+		System.out.println("Task List (Due date-wise) :");
+		System.out.println("**************************"+"\n");
+		format();		
 	}
 		
-	//Sorting by Id
+	//Sorting by Task Id
 	public void dispById() throws IOException {
 		TaskList.clear();
 		addTaskToArrayList();
-	    display();	       		
+		System.out.println("Task List (Task Id-wise) :");
+		System.out.println("**************************"+"\n");
+	    format();	       		
 	}
 			
 		
 	//Display method for printing format
-	public void display() {
+	public void format() {
 		
 		//calling method to count open and close tasks
 		int oc = openCount();
@@ -392,8 +423,7 @@ public class ToDo {
 		//Format
 		String specifiers = "%-20s %-20s %-20s %-20s %-20s %-20s %-20s%n";
 		
-		System.out.println("Task List (Project-wise) :");
-		System.out.println("**************************"+"\n");
+		
 		System.out.println("You have " + oc + " opend task & " + cc + 
 				" closed task \n");
 	    	
